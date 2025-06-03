@@ -56,3 +56,30 @@
   </div>
 </body>
 </html>
+<script>
+  const words = ["We", "Get", "Bread"];
+  let index = 0;
+  const carousel = document.getElementById("carousel");
+
+  setInterval(() => {
+    index = (index + 1) % words.length;
+    carousel.textContent = words[index];
+  }, 1500);
+
+  // Phantom Wallet Connect
+  const connectButton = document.querySelector('.button');
+  connectButton.addEventListener('click', async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const response = await window.solana.connect();
+        alert(`Connected: ${response.publicKey.toString()}`);
+        connectButton.textContent = "Wallet Connected";
+      } catch (err) {
+        console.error('Connection failed:', err);
+        alert('Wallet connection failed');
+      }
+    } else {
+      alert("Phantom Wallet not detected. Install from https://phantom.app/");
+    }
+  });
+</script>
