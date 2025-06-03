@@ -5,167 +5,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>$BREAD Token</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-
-    .scroll-banner {
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      background: #111;
-      color: #fff;
-      font-size: 1.2rem;
-      padding: 0.5rem 0;
-    }
-
-    .scroll-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 12s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    .container {
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .logo {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .button {
-      background: #00ff88;
-      color: #000;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-      border-radius: 5px;
-    }
-
-    .section {
-      margin-top: 2rem;
-    }
-
-    a {
-      color: #00ff88;
-      text-decoration: none;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 0.5rem 0;
-    }
-
-    code {
-      background: #111;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .socials {
-      margin-top: 1rem;
-    }
-
-    .socials a {
-      margin: 0 0.5rem;
-      color: #00ff88;
-      font-size: 1.2rem;
-    }
-
-    @media (max-width: 600px) {
-      .logo {
-        font-size: 2.2rem;
-      }
-
-      .button {
-        width: 100%;
-        padding: 1rem;
-      }
-
-      .scroll-text {
-        font-size: 1rem;
-      }
-    }
+    body { font-family: Arial, sans-serif; background: #000; color: #fff; margin: 0; padding: 0; }
+    .scroll-banner { width: 100%; white-space: nowrap; overflow: hidden; background: #111; color: #fff; font-size: 1.2rem; padding: 0.5rem 0; }
+    .scroll-text { display: inline-block; padding-left: 100%; animation: scroll 10s linear infinite; }
+    @keyframes scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+    .container { padding: 2rem; text-align: center; }
+    .logo { font-size: 3rem; margin-bottom: 1rem; }
+    .button { background: #00ff88; color: #000; border: none; padding: 0.8rem 1.5rem; margin-top: 1rem; cursor: pointer; font-weight: bold; font-size: 1rem; border-radius: 5px; }
+    .section { margin-top: 2rem; }
+    a { color: #00ff88; text-decoration: none; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5rem 0; }
+    .sol-ticker { font-size: 0.9rem; margin-top: 1rem; color: #aaa; }
   </style>
 </head>
 <body>
 
   <div class="scroll-banner">
-    <div class="scroll-text">🍞 WE GET BREAD • 🍞 WE GET BREAD • 🍞 WE GET BREAD • 🍞 WE GET BREAD •</div>
+    <div class="scroll-text">🍞 WE GET $BREAD • 🍞 WE GET $BREAD • 🍞 WE GET $BREAD • 🍞 WE GET $BREAD •</div>
   </div>
 
   <div class="container">
     <div class="logo">🍞 $BREAD</div>
     <h2>The Utility Token for We Get Bread</h2>
+    <div class="sol-ticker" id="solTicker">Loading SOL price...</div>
     <button class="button" id="connectButton">Connect Wallet</button>
-
-    <div class="section">
-      <h3>Token Info</h3>
-      <p><strong>Name:</strong> Bread Token</p>
-      <p><strong>Symbol:</strong> $BREAD</p>
-      <p><strong>Total Supply:</strong> 1,000,000,000</p>
-      <p><strong>Official Wallet:</strong><br/><code>jm2MYFDt36t6QQqPABkzHPnSjRkCeYuvMVu1mHrx8T4</code></p>
-    </div>
 
     <div class="section">
       <h3>Utility</h3>
       <ul>
         <li>🔥 Burn $BREAD → Unlock Drop Date 2 New Drops</li>
         <li>🛍️ Hold $BREAD / Merch → Early Access 2 Future Drops</li>
-        <li>🚫 No Restocks & Limited Quantities!</li>
+        <li>🚫 No Restocks & Limited Quantities !</li>
         <li>🗳️ Vote on New Drops</li>
       </ul>
     </div>
 
     <div class="section">
-      <h3>Links</h3>
+      <h3>Trade</h3>
+      <button class="button" onclick="burnBread()">Burn $BREAD</button>
+      <button class="button" onclick="payBread()">Pay $BREAD</button>
+    </div>
+
+    <div class="section">
+      <h3>Socials</h3>
       <p>
-        <a href="https://wegetbread.xyz" target="_blank">Website</a> |
-        <a href="https://linktr.ee/wgbworldwide" target="_blank">Linktree</a> |
-        <a href="https://raydium.io" target="_blank">Buy on Raydium</a> |
-        <a href="https://solscan.io" target="_blank">Track on Solscan</a>
+        <a href="https://instagram.com/wgbworldwide" target="_blank">Instagram</a> | 
+        <a href="https://x.com/wegetloafs" target="_blank">X</a> | 
+        <a href="https://wegetbread.xyz" target="_blank">Website</a>
       </p>
-      <div class="socials">
-        <a href="https://instagram.com/wgbworldwide" target="_blank">Instagram</a> |
-        <a href="https://x.com/wegetloafs" target="_blank">X (Twitter)</a>
-      </div>
     </div>
   </div>
 
   <script>
+    let wallet = null;
+
     const connectButton = document.getElementById('connectButton');
     connectButton.addEventListener('click', async () => {
       if (window.solana && window.solana.isPhantom) {
         try {
-          const response = await window.solana.connect();
-          alert(`Connected: ${response.publicKey.toString()}`);
-          connectButton.textContent = "Wallet Connected";
-        } catch (err) {
-          console.error('Connection failed:', err);
-          alert('Wallet connection failed');
+          const resp = await window.solana.connect();
+          wallet = resp.publicKey.toString();
+          connectButton.textContent = "Connected: " + wallet.slice(0, 6) + "...";
+        } catch (e) {
+          alert("Connection failed.");
         }
       } else {
-        alert("Phantom Wallet not detected. Install from https://phantom.app/");
+        alert("Phantom wallet not found");
       }
     });
+
+    async function burnBread() {
+      if (!wallet) return alert("Connect wallet first");
+      const res = await fetch('/burn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wallet })
+      });
+      const data = await res.json();
+      alert(data.message || 'Burned!');
+    }
+
+    async function payBread() {
+      if (!wallet) return alert("Connect wallet first");
+      const res = await fetch('/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wallet })
+      });
+      const data = await res.json();
+      alert(data.message || 'Paid!');
+    }
+
+    async function fetchSolPrice() {
+      try {
+        const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd");
+        const data = await res.json();
+        const price = data.solana.usd.toFixed(2);
+        document.getElementById("solTicker").innerText = `Current SOL Price: $${price} USD`;
+      } catch (e) {
+        document.getElementById("solTicker").innerText = "SOL price unavailable";
+      }
+    }
+
+    fetchSolPrice();
+    setInterval(fetchSolPrice, 60000);
   </script>
 
 </body>
