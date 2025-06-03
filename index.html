@@ -7,28 +7,54 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f6f1;
-      color: #1f1f1f;
+      background: #000; /* Black background */
+      color: #fff;      /* White text */
       padding: 2rem;
       text-align: center;
     }
-    .logo { font-size: 3rem; margin-bottom: 1rem; }
+    .logo {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .carousel {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      animation: fade 1s ease-in-out infinite;
+    }
     .button {
-      background: #ffcc00;
-      color: #000;
+      background: #28a745; /* Green button */
+      color: #fff;
       border: none;
       padding: 0.8rem 1.5rem;
       margin-top: 1rem;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .button:hover {
+      background: #218838; /* Darker green on hover */
     }
     .section {
       margin-top: 2rem;
+    }
+    a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @keyframes fade {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
     }
   </style>
 </head>
 <body>
   <div class="logo">🍞 $BREAD</div>
+  <div class="carousel" id="carousel">We</div>
   <h2>The Utility Token for We Get Bread</h2>
   <button class="button" id="connectButton">Connect Wallet</button>
 
@@ -41,45 +67,49 @@
 
   <div class="section">
     <h3>Utility</h3>
-    <ul style="list-style: none;">
-      <li>🔥 Burn $BREAD → Unlock Merch</li>
-      <li>🛍️ Holder-Only Drops</li>
-      <li>🗳️ Vote on New Products</li>
+    <ul style="list-style: none; padding: 0;">
+      <li>🔥 Burn $BREAD → Unlock Early Access 2 Merch</li>
+      <li>📈 Use $BREAD for Trading Merch</li>
+      <li>🗳️ Vote on Next Merch Drops</li>
     </ul>
   </div>
 
   <div class="section">
     <h3>Links</h3>
-    <p><a href="https://linktr.ee/wgbworldwide" target="_blank">Linktree</a> | 
-       <a href="https://raydium.io" target="_blank">Buy on Raydium</a> | 
-       <a href="https://solscan.io" target="_blank">Track on Solscan</a></p>
+    <p>
+      <a href="https://linktr.ee/wgbworldwide" target="_blank">Linktree</a> |
+      <a href="https://raydium.io" target="_blank">Buy on Raydium</a> |
+      <a href="https://solscan.io" target="_blank">Track on Solscan</a>
+    </p>
   </div>
+
+  <script>
+    // Word carousel
+    const words = ["We", "Get", "Bread"];
+    let index = 0;
+    const carousel = document.getElementById("carousel");
+
+    setInterval(() => {
+      index = (index + 1) % words.length;
+      carousel.textContent = words[index];
+    }, 1500);
+
+    // Phantom Wallet Connect
+    const connectButton = document.getElementById('connectButton');
+    connectButton.addEventListener('click', async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const response = await window.solana.connect();
+          alert(`Connected: ${response.publicKey.toString()}`);
+          connectButton.textContent = "Wallet Connected";
+        } catch (err) {
+          console.error('Connection failed:', err);
+          alert('Wallet connection failed');
+        }
+      } else {
+        alert("Phantom Wallet not detected. Install from https://phantom.app/");
+      }
+    });
+  </script>
 </body>
 </html>
-<script>
-  const words = ["We", "Get", "Bread"];
-  let index = 0;
-  const carousel = document.getElementById("carousel");
-
-  setInterval(() => {
-    index = (index + 1) % words.length;
-    carousel.textContent = words[index];
-  }, 1500);
-
-  // Phantom Wallet Connect
-  const connectButton = document.querySelector('.button');
-  connectButton.addEventListener('click', async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const response = await window.solana.connect();
-        alert(`Connected: ${response.publicKey.toString()}`);
-        connectButton.textContent = "Wallet Connected";
-      } catch (err) {
-        console.error('Connection failed:', err);
-        alert('Wallet connection failed');
-      }
-    } else {
-      alert("Phantom Wallet not detected. Install from https://phantom.app/");
-    }
-  });
-</script>
