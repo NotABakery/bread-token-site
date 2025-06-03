@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>$BREAD Token</title>
+  <!-- 🍞 Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🍞</text></svg>">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -49,7 +51,7 @@
       color: #000;
       border: none;
       padding: 0.8rem 1.5rem;
-      margin-top: 1rem;
+      margin: 0.5rem;
       cursor: pointer;
       font-weight: bold;
       font-size: 1rem;
@@ -80,6 +82,14 @@
       border-radius: 4px;
     }
 
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+      margin: 0 10px;
+      filter: invert(100%);
+      vertical-align: middle;
+    }
+
     @media (max-width: 600px) {
       .logo {
         font-size: 2.2rem;
@@ -106,13 +116,17 @@
     <div class="logo">🍞 $BREAD</div>
     <h2>The Utility Token for We Get Bread</h2>
     <button class="button" id="connectButton">Connect Wallet</button>
+    <button class="button" id="burnButton">Burn $BREAD</button>
+    <button class="button" id="payButton">Pay with $BREAD</button>
 
     <div class="section">
       <h3>Token Info</h3>
       <p><strong>Name:</strong> Bread Token</p>
       <p><strong>Symbol:</strong> $BREAD</p>
       <p><strong>Total Supply:</strong> 1,000,000,000</p>
-      <p><strong>Official Wallet:</strong> <br/><code id="walletCode">jm2MYFDt36t6QQqPABkzHPnSjRkCeYuvMVu1mHrx8T4</code></p>
+      <p><strong>Official Wallet:</strong><br/>
+        <code>jm2MYFDt36t6QQqPABkzHPnSjRkCeYuvMVu1mHrx8T4</code>
+      </p>
     </div>
 
     <div class="section">
@@ -120,39 +134,153 @@
       <ul>
         <li>🔥 Burn $BREAD → Unlock Drop Date 2 New Drops</li>
         <li>🛍️ Hold $BREAD / Merch → Early Access 2 Future Drops</li>
-<li>🚫 No Restocks & Limited Quantities !</li>
-<li>🗳️ Vote on New Drops</li>
+        <li>🚫 No Restocks & Limited Quantities!</li>
+        <li>🗳️ Vote on New Drops</li>
       </ul>
     </div>
 
     <div class="section">
-      <h3>Links</h3>
-      <p>
-        <a href="https://linktr.ee/wgbworldwide" target="_blank">Linktree</a> | 
-        <a href="https://raydium.io" target="_blank">Buy on Raydium</a> | 
-        <a href="https://solscan.io" target="_blank">Track on Solscan</a>
-      </p>
+      <h3>Connect</h3>
+      <div class="social-icons">
+        <a href="https://instagram.com/wgbworldwide" target="_blank" aria-label="Instagram">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+        </a>
+        <a href="https://x.com/wegetloafs" target="_blank" aria-label="X">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="X">
+        </a>
+        <a href="https://wegetbread.xyz" target="_blank" aria-label="Website">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/internetarchive.svg" alt="Website">
+        </a>
+      </div>
     </div>
   </div>
 
-  <script>
-    // Phantom Wallet Connect
-    const connectButton = document.getElementById('connectButton');
-    connectButton.addEventListener('click', async () => {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          const response = await window.solana.connect();
-          alert(`Connected: ${response.publicKey.toString()}`);
-          connectButton.textContent = "Wallet Connected";
-        } catch (err) {
-          console.error('Connection failed:', err);
-          alert('Wallet connection failed');
-        }
-      } else {
-        alert("Phantom Wallet not detected. Install from https://phantom.app/");
-      }
-    });
-  </script>
+  <!-- Include Solana Web3.js and SPL Token libraries -->
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
 
-</body>
-</html>
+  <script>
+    (async () => {
+      const { Connection, clusterApiUrl, PublicKey, Transaction } = solanaWeb3;
+      const { getAssociatedTokenAddress, createTransferInstruction, TOKEN_PROGRAM_ID } = splToken;
+
+      const connection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
+
+      const connectButton = document.getElementById('connectButton');
+      const burnButton = document.getElementById('burnButton');
+      const payButton = document.getElementById('payButton');
+
+      let walletPublicKey = null;
+
+      // Connect to Phantom Wallet
+      connectButton.addEventListener('click', async () => {
+        if (window.solana && window.solana.isPhantom) {
+          try {
+            const response = await window.solana.connect();
+            walletPublicKey = response.publicKey;
+            alert(`Connected: ${walletPublicKey.toString()}`);
+            connectButton.textContent = "Wallet Connected";
+          } catch (err) {
+            console.error('Connection failed:', err);
+            alert('Wallet connection failed');
+          }
+        } else {
+          alert("Phantom Wallet not detected. Install from https://phantom.app/");
+        }
+      });
+
+      // Burn $BREAD
+      burnButton.addEventListener('click', async () => {
+        if (!walletPublicKey) {
+          alert('Please connect your wallet first.');
+          return;
+        }
+
+        // Replace with your actual $BREAD token mint address
+        const mintAddress = new PublicKey('REPLACE_WITH_YOUR_BREAD_MINT_ADDRESS');
+        const burnAddress = new PublicKey('11111111111111111111111111111111'); // Burn address
+
+        try {
+          const fromTokenAccount = await getAssociatedTokenAddress(
+            mintAddress,
+            walletPublicKey
+          );
+
+          const toTokenAccount = await getAssociatedTokenAddress(
+            mintAddress,
+            burnAddress
+          );
+
+          const transaction = new Transaction().add(
+            createTransferInstruction(
+              fromTokenAccount,
+              toTokenAccount,
+              walletPublicKey,
+              1, // Amount to burn (adjust decimals as needed)
+              [],
+              TOKEN_PROGRAM_ID
+            )
+          );
+
+          const { blockhash } = await connection.getLatestBlockhash();
+          transaction.recentBlockhash = blockhash;
+          transaction.feePayer = walletPublicKey;
+
+          const signed = await window.solana.signTransaction(transaction);
+          const signature = await connection.sendRawTransaction(signed.serialize());
+          await connection.confirmTransaction(signature, 'confirmed');
+
+          alert(`Burn successful! Transaction signature: ${signature}`);
+        } catch (err) {
+          console.error('Burn failed:', err);
+          alert('Burn transaction failed');
+        }
+      });
+
+      // Pay with $BREAD
+      payButton.addEventListener('click', async () => {
+        if (!walletPublicKey) {
+          alert('Please connect your wallet first.');
+          return;
+        }
+
+        // Replace with your actual $BREAD token mint address
+        const mintAddress = new PublicKey('REPLACE_WITH_YOUR_BREAD_MINT_ADDRESS');
+        const recipientAddress = new PublicKey('jm2MYFDt36t6QQqPABkzHPnSjRkCeYuvMVu1mHrx8T4');
+
+        try {
+          const fromTokenAccount = await getAssociatedTokenAddress(
+            mintAddress,
+            walletPublicKey
+          );
+
+          const toTokenAccount = await getAssociatedTokenAddress(
+            mintAddress,
+            recipientAddress
+          );
+
+          const transaction = new Transaction().add(
+            createTransferInstruction(
+              fromTokenAccount,
+              toTokenAccount,
+              walletPublicKey,
+              1, // Amount to pay (adjust decimals as needed)
+              [],
+              TOKEN_PROGRAM_ID
+            )
+          );
+
+          const { blockhash } = await connection.getLatestBlockhash();
+          transaction.recentBlockhash = blockhash;
+          transaction.feePayer = walletPublicKey;
+
+          const signed = await window.solana.signTransaction(transaction);
+          const signature = await connection.sendRawTransaction(signed.serialize());
+          await connection.confirmTransaction(signature, 'confirmed');
+
+          alert(`Payment successful! Transaction signature: ${signature}`);
+        } catch (err) {
+          console.error('Payment failed:', err);
+          alert('Payment transaction failed');
+        }
+      
