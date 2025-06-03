@@ -11,16 +11,34 @@
       color: #fff;      /* White text */
       padding: 2rem;
       text-align: center;
+      margin: 0;
+    }
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: #111;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      border-bottom: 1px solid #222;
+    }
+    .marquee-text {
+      display: inline-block;
+      padding: 1rem 0;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: 1.2rem;
+      animation: scroll 12s linear infinite;
+    }
+    @keyframes scroll {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
     .logo {
       font-size: 3rem;
+      margin-top: 4rem;
       margin-bottom: 1rem;
-    }
-    .carousel {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      animation: fade 1s ease-in-out infinite;
     }
     .button {
       background: #28a745; /* Green button */
@@ -45,16 +63,15 @@
     a:hover {
       text-decoration: underline;
     }
-    @keyframes fade {
-      0% { opacity: 0.3; }
-      50% { opacity: 1; }
-      100% { opacity: 0.3; }
-    }
   </style>
 </head>
 <body>
+  <!-- Marquee -->
+  <div class="marquee-container">
+    <div class="marquee-text">🍞 WE GET BREAD 🍞 WE GET BREAD 🍞 WE GET BREAD 🍞 WE GET BREAD 🍞</div>
+  </div>
+
   <div class="logo">🍞 $BREAD</div>
-  <div class="carousel" id="carousel">We</div>
   <h2>The Utility Token for We Get Bread</h2>
   <button class="button" id="connectButton">Connect Wallet</button>
 
@@ -70,7 +87,8 @@
     <ul style="list-style: none; padding: 0;">
       <li>🔥 Burn $BREAD → Unlock Drop Date 2 New Drops</li>
       <li>🛍️ Hold $BREAD / Merch → Receive Early Access 2 Future Drops</li>
-      <li>🗳️ Vote on New Drops</li>
+      <li>🚫 No Restocks & Limited Quantities !</li>
+      <li>🗳️ Vote on Next Drops</li>
     </ul>
   </div>
 
@@ -84,16 +102,6 @@
   </div>
 
   <script>
-    // Word carousel
-    const words = ["We", "Get", "Bread"];
-    let index = 0;
-    const carousel = document.getElementById("carousel");
-
-    setInterval(() => {
-      index = (index + 1) % words.length;
-      carousel.textContent = words[index];
-    }, 1500);
-
     // Phantom Wallet Connect
     const connectButton = document.getElementById('connectButton');
     connectButton.addEventListener('click', async () => {
