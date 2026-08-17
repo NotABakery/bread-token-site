@@ -3,52 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>$BREAD Token</title>
+  <title>$BREAD Token - Wallet</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #000; color: #fff; margin: 0; padding: 0; }
-    .scroll-banner { width: 100%; white-space: nowrap; overflow: hidden; background: #111; color: #fff; font-size: 1.2rem; padding: 0.5rem 0; }
-    .scroll-text { display: inline-block; padding-left: 100%; animation: scroll 10s linear infinite; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
+    
+    .scroll-banner { width: 100%; white-space: nowrap; overflow: hidden; background: #1a1a1a; color: #ffd700; font-size: 1.1rem; padding: 0.6rem 0; border-bottom: 2px solid #ffd700; }
+    .scroll-text { display: inline-block; padding-left: 100%; animation: scroll 15s linear infinite; }
     @keyframes scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
-    .container { padding: 2rem; text-align: center; }
-    .logo { font-size: 3rem; margin-bottom: 1rem; }
-    .button { background: #00ff88; color: #000; border: none; padding: 0.8rem 1.5rem; margin-top: 1rem; cursor: pointer; font-weight: bold; font-size: 1rem; border-radius: 5px; }
-    .section { margin-top: 2rem; }
-    a { color: #00ff88; text-decoration: none; }
+    
+    .container { max-width: 600px; margin: 0 auto; padding: 1.5rem; }
+    
+    .wallet-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; padding: 2rem; margin: 1.5rem 0; border: 1px solid #ffd70033; box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1); }
+    .wallet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .wallet-address { font-size: 0.85rem; color: #aaa; word-break: break-all; background: #00000044; padding: 0.5rem; border-radius: 8px; }
+    .balance { font-size: 2.5rem; font-weight: bold; color: #ffd700; margin: 0.5rem 0; }
+    .balance-label { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .sol-price { color: #4fc3f7; font-size: 0.9rem; margin-top: 0.5rem; }
+    
+    .button { background: #ffd700; color: #000; border: none; padding: 0.8rem 1.5rem; margin: 0.5rem; cursor: pointer; font-weight: bold; font-size: 1rem; border-radius: 12px; transition: all 0.3s; min-width: 120px; }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
+    .button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .button-secondary { background: #2a2a4a; color: #fff; border: 1px solid #ffd70044; }
+    .button-secondary:hover { background: #3a3a5a; }
+    .button-danger { background: #ff4444; color: #fff; }
+    .button-danger:hover { background: #cc0000; }
+    
+    .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1.5rem 0; }
+    
+    .input-group { background: #111; border-radius: 12px; padding: 1rem; margin: 1rem 0; border: 1px solid #333; }
+    .input-group label { display: block; color: #aaa; font-size: 0.8rem; margin-bottom: 0.3rem; text-transform: uppercase; }
+    .input-group input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 0.8rem; border-radius: 8px; font-size: 1rem; }
+    .input-group input:focus { outline: none; border-color: #ffd700; }
+    
+    .tx-status { background: #111; padding: 1rem; border-radius: 12px; margin: 1rem 0; color: #4fc3f7; font-size: 0.9rem; border-left: 3px solid #ffd700; }
+    
+    .section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #222; }
+    .section h3 { color: #ffd700; margin-bottom: 1rem; }
     ul { list-style: none; padding: 0; }
-    li { margin: 0.5rem 0; }
-    .sol-ticker { font-size: 0.9rem; margin-top: 1rem; color: #aaa; }
+    li { margin: 0.5rem 0; color: #ccc; padding: 0.5rem; background: #111; border-radius: 8px; }
+    li::before { content: "🍞 "; }
+    
+    a { color: #ffd700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: #fff; padding: 1rem 2rem; border-radius: 12px; border: 1px solid #ffd700; display: none; z-index: 1000; }
+    .toast.show { display: block; animation: slideUp 0.5s; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    @media (max-width: 480px) { .action-grid { grid-template-columns: 1fr; } .balance { font-size: 2rem; } }
   </style>
 </head>
 <body>
 
   <div class="scroll-banner">
-    <div class="scroll-text">🍞 WE GET $BREAD • 🍞 WE GET $BREAD • 🍞 WE GET $BREAD • 🍞 WE GET $BREAD •</div>
+    <div class="scroll-text">🍞 WE GET $BREAD • BUY • SELL • HODL • 🍞 WE GET $BREAD • BUY • SELL • HODL •</div>
   </div>
 
   <div class="container">
-    <div class="logo">🍞 $BREAD</div>
-    <h2>The Utility Token for We Get Bread</h2>
-    <div class="sol-ticker" id="solTicker">Loading SOL price...</div>
-    <button class="button" id="connectButton">Connect Wallet</button>
+    <div style="text-align: center; margin: 1rem 0;">
+      <div style="font-size: 3rem;">🍞</div>
+      <h1 style="color: #ffd700; font-size: 2.5rem;">$BREAD</h1>
+      <p style="color: #888;">The Utility Token for We Get Bread</p>
+    </div>
 
+    <!-- Wallet Card -->
+    <div class="wallet-card">
+      <div class="wallet-header">
+        <span class="balance-label">💰 Wallet</span>
+        <button class="button button-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem; min-width: auto;" id="disconnectBtn">Disconnect</button>
+      </div>
+      <div class="wallet-address" id="walletAddress">Not Connected</div>
+      <div class="balance" id="balanceDisplay">0.00 $BREAD</div>
+      <div class="sol-price" id="solTicker">Loading SOL price...</div>
+      <button class="button" id="connectButton" style="width: 100%; margin-top: 1rem;">Connect Phantom Wallet</button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="action-grid">
+      <button class="button button-secondary" id="buyButton">🛒 Buy $BREAD</button>
+      <button class="button button-secondary" id="receiveButton">📥 Receive</button>
+    </div>
+
+    <!-- Send Section -->
+    <div class="input-group">
+      <label>📤 Send $BREAD</label>
+      <input type="text" id="recipientAddress" placeholder="Enter recipient's Solana address" />
+      <input type="number" id="sendAmount" placeholder="Amount" step="0.1" min="0" style="margin-top: 0.5rem;" />
+      <button class="button" id="sendButton" style="width: 100%; margin-top: 0.5rem;">Send $BREAD</button>
+    </div>
+
+    <!-- Receive Section -->
+    <div class="input-group" id="receiveSection" style="display: none;">
+      <label>📥 Your Receive Address</label>
+      <div style="background: #000; padding: 0.8rem; border-radius: 8px; word-break: break-all; color: #ffd700;" id="receiveAddress">Connect wallet to see address</div>
+      <button class="button button-secondary" onclick="copyAddress()" style="width: 100%; margin-top: 0.5rem;">📋 Copy Address</button>
+    </div>
+
+    <!-- Transaction Status -->
+    <div class="tx-status" id="txStatus">💡 Connect wallet to start transacting</div>
+
+    <!-- Utility Section -->
     <div class="section">
-      <h3>Utility</h3>
+      <h3>🔥 Utility</h3>
       <ul>
-        <li>🔥 Burn $BREAD → Unlock Drop Date 2 New Drops</li>
-        <li>🛍️ Hold $BREAD / Merch → Early Access 2 Future Drops</li>
-        <li>🚫 No Restocks & Limited Quantities !</li>
-        <li>🗳️ Vote on New Drops</li>
+        <li>Burn $BREAD → Unlock Drop Date 2 New Drops</li>
+        <li>Hold $BREAD / Merch → Early Access 2 Future Drops</li>
+        <li>No Restocks & Limited Quantities !</li>
+        <li>Vote on New Drops</li>
       </ul>
     </div>
 
     <div class="section">
-      <h3>Trade</h3>
-      <button class="button" onclick="burnBread()">Burn $BREAD</button>
-      <button class="button" onclick="payBread()">Pay $BREAD</button>
-    </div>
-
-    <div class="section">
-      <h3>Socials</h3>
+      <h3>🌐 Socials</h3>
       <p>
         <a href="https://instagram.com/wgbworldwide" target="_blank">Instagram</a> | 
         <a href="https://x.com/wegetloafs" target="_blank">X</a> | 
@@ -57,60 +124,303 @@
     </div>
   </div>
 
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
   <script>
-    let wallet = null;
+    // ============================================
+    // STATE MANAGEMENT
+    // ============================================
+    let walletPublicKey = null;
+    let balance = 0;
+    let isConnecting = false;
 
-    const connectButton = document.getElementById('connectButton');
-    connectButton.addEventListener('click', async () => {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          const resp = await window.solana.connect();
-          wallet = resp.publicKey.toString();
-          connectButton.textContent = "Connected: " + wallet.slice(0, 6) + "...";
-        } catch (e) {
-          alert("Connection failed.");
-        }
+    // DOM Elements
+    const connectBtn = document.getElementById('connectButton');
+    const disconnectBtn = document.getElementById('disconnectBtn');
+    const walletAddressEl = document.getElementById('walletAddress');
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    const txStatus = document.getElementById('txStatus');
+    const recipientInput = document.getElementById('recipientAddress');
+    const sendAmountInput = document.getElementById('sendAmount');
+    const sendBtn = document.getElementById('sendButton');
+    const buyBtn = document.getElementById('buyButton');
+    const receiveBtn = document.getElementById('receiveButton');
+    const receiveSection = document.getElementById('receiveSection');
+    const receiveAddressEl = document.getElementById('receiveAddress');
+    const toast = document.getElementById('toast');
+
+    // ============================================
+    // TOAST NOTIFICATIONS
+    // ============================================
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.borderColor = isError ? '#ff4444' : '#ffd700';
+      toast.style.background = isError ? '#1a0a0a' : '#1a1a2e';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    // ============================================
+    // UPDATE UI
+    // ============================================
+    function updateUI() {
+      if (walletPublicKey) {
+        const short = walletPublicKey.slice(0, 6) + '...' + walletPublicKey.slice(-4);
+        walletAddressEl.textContent = `📍 ${short}`;
+        connectBtn.textContent = '✅ Connected';
+        connectBtn.style.background = '#4caf50';
+        disconnectBtn.style.display = 'block';
+        receiveAddressEl.textContent = walletPublicKey;
+        balanceDisplay.textContent = `${balance.toFixed(2)} $BREAD`;
+        txStatus.innerHTML = '🟢 Wallet connected. Ready to transact!';
+        receiveSection.style.display = 'block';
       } else {
-        alert("Phantom wallet not found");
+        walletAddressEl.textContent = 'Not Connected';
+        connectBtn.textContent = 'Connect Phantom Wallet';
+        connectBtn.style.background = '#ffd700';
+        disconnectBtn.style.display = 'none';
+        balanceDisplay.textContent = '0.00 $BREAD';
+        txStatus.innerHTML = '💡 Connect wallet to start transacting';
+        receiveSection.style.display = 'none';
       }
-    });
-
-    async function burnBread() {
-      if (!wallet) return alert("Connect wallet first");
-      const res = await fetch('/burn', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet })
-      });
-      const data = await res.json();
-      alert(data.message || 'Burned!');
     }
 
-    async function payBread() {
-      if (!wallet) return alert("Connect wallet first");
-      const res = await fetch('/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet })
-      });
-      const data = await res.json();
-      alert(data.message || 'Paid!');
+    // ============================================
+    // CONNECT / DISCONNECT
+    // ============================================
+    async function connectWallet() {
+      if (isConnecting) return;
+      
+      // Check if Phantom is installed
+      if (!window.solana || !window.solana.isPhantom) {
+        showToast('❌ Phantom wallet not found. Please install it.', true);
+        txStatus.innerHTML = '❌ Phantom wallet not found. Please install the extension.';
+        return;
+      }
+
+      try {
+        isConnecting = true;
+        connectBtn.textContent = 'Connecting...';
+        
+        const response = await window.solana.connect({ onlyIfTrusted: false });
+        walletPublicKey = response.publicKey.toString();
+        
+        // Fetch balance (simulated for demo - in production, fetch from blockchain)
+        balance = 1250.75; // Demo balance
+        updateUI();
+        showToast('✅ Wallet connected successfully!');
+        txStatus.innerHTML = `✅ Connected: ${walletPublicKey.slice(0, 8)}... Ready to buy, send, and receive!`;
+        
+        // Listen for account changes
+        window.solana.on('accountChanged', (newAccount) => {
+          if (newAccount) {
+            walletPublicKey = newAccount.toString();
+            updateUI();
+            showToast('🔄 Account changed');
+          } else {
+            disconnectWallet();
+          }
+        });
+        
+        // Listen for disconnection
+        window.solana.on('disconnect', () => {
+          disconnectWallet();
+          showToast('🔌 Wallet disconnected', true);
+        });
+        
+      } catch (error) {
+        console.error('Connection error:', error);
+        showToast('❌ Connection failed: ' + error.message, true);
+        txStatus.innerHTML = '❌ Connection failed. Please try again.';
+      } finally {
+        isConnecting = false;
+        if (!walletPublicKey) {
+          connectBtn.textContent = 'Connect Phantom Wallet';
+          connectBtn.style.background = '#ffd700';
+        }
+      }
     }
 
+    function disconnectWallet() {
+      if (window.solana) {
+        try { window.solana.disconnect(); } catch (e) {}
+      }
+      walletPublicKey = null;
+      balance = 0;
+      updateUI();
+      showToast('🔌 Disconnected');
+      txStatus.innerHTML = '💡 Wallet disconnected. Connect to continue.';
+    }
+
+    // ============================================
+    // SEND $BREAD (Simulated)
+    // ============================================
+    async function sendBread() {
+      if (!walletPublicKey) {
+        showToast('⚠️ Please connect your wallet first', true);
+        return;
+      }
+
+      const recipient = recipientInput.value.trim();
+      const amount = parseFloat(sendAmountInput.value);
+
+      if (!recipient) {
+        showToast('⚠️ Please enter a recipient address', true);
+        return;
+      }
+
+      if (!amount || amount <= 0) {
+        showToast('⚠️ Please enter a valid amount', true);
+        return;
+      }
+
+      if (amount > balance) {
+        showToast(`⚠️ Insufficient balance. You have ${balance.toFixed(2)} $BREAD`, true);
+        return;
+      }
+
+      // Validate Solana address (basic check)
+      if (recipient.length < 32 || recipient.length > 44) {
+        showToast('⚠️ Invalid Solana address format', true);
+        return;
+      }
+
+      try {
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending...';
+        txStatus.innerHTML = '⏳ Processing transaction...';
+
+        // SIMULATE A TRANSACTION (In production, use @solana/web3.js)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Deduct balance
+        balance -= amount;
+        updateUI();
+        
+        showToast(`✅ Sent ${amount.toFixed(2)} $BREAD to ${recipient.slice(0, 6)}...`);
+        txStatus.innerHTML = `✅ Success! Sent ${amount.toFixed(2)} $BREAD to ${recipient.slice(0, 8)}...`;
+        
+        // Clear inputs
+        recipientInput.value = '';
+        sendAmountInput.value = '';
+
+      } catch (error) {
+        showToast('❌ Transaction failed: ' + error.message, true);
+        txStatus.innerHTML = '❌ Transaction failed. Please try again.';
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send $BREAD';
+      }
+    }
+
+    // ============================================
+    // BUY $BREAD (Simulated)
+    // ============================================
+    async function buyBread() {
+      if (!walletPublicKey) {
+        showToast('⚠️ Please connect your wallet first', true);
+        return;
+      }
+
+      try {
+        buyBtn.disabled = true;
+        buyBtn.textContent = 'Processing...';
+        txStatus.innerHTML = '⏳ Buying $BREAD...';
+
+        // Simulate purchase (In production, integrate with Jupiter or a DEX)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        const buyAmount = 500 + Math.random() * 500;
+        balance += buyAmount;
+        updateUI();
+        
+        showToast(`🛒 Purchased ${buyAmount.toFixed(2)} $BREAD for ${(buyAmount * 0.001).toFixed(2)} SOL`);
+        txStatus.innerHTML = `✅ Bought ${buyAmount.toFixed(2)} $BREAD! Check your balance.`;
+
+      } catch (error) {
+        showToast('❌ Purchase failed: ' + error.message, true);
+      } finally {
+        buyBtn.disabled = false;
+        buyBtn.textContent = '🛒 Buy $BREAD';
+      }
+    }
+
+    // ============================================
+    // RECEIVE / COPY ADDRESS
+    // ============================================
+    function toggleReceive() {
+      if (!walletPublicKey) {
+        showToast('⚠️ Connect wallet first', true);
+        return;
+      }
+      const isVisible = receiveSection.style.display !== 'none';
+      receiveSection.style.display = isVisible ? 'none' : 'block';
+      if (!isVisible) {
+        receiveAddressEl.textContent = walletPublicKey;
+      }
+    }
+
+    function copyAddress() {
+      if (!walletPublicKey) {
+        showToast('⚠️ No wallet connected', true);
+        return;
+      }
+      navigator.clipboard.writeText(walletPublicKey).then(() => {
+        showToast('📋 Address copied to clipboard!');
+      }).catch(() => {
+        // Fallback
+        const textArea = document.createElement('textarea');
+        textArea.value = walletPublicKey;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('📋 Address copied!');
+      });
+    }
+
+    // ============================================
+    // SOL PRICE FETCHER
+    // ============================================
     async function fetchSolPrice() {
       try {
         const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd");
         const data = await res.json();
         const price = data.solana.usd.toFixed(2);
-        document.getElementById("solTicker").innerText = `Current SOL Price: $${price} USD`;
+        document.getElementById("solTicker").innerHTML = `💎 SOL: $${price} USD`;
       } catch (e) {
-        document.getElementById("solTicker").innerText = "SOL price unavailable";
+        document.getElementById("solTicker").innerHTML = "💎 SOL: Price unavailable";
       }
     }
-
     fetchSolPrice();
-    setInterval(fetchSolPrice, 60000);
-  </script>
+    setInterval(fetchSolPrice, 30000);
 
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    connectBtn.addEventListener('click', connectWallet);
+    disconnectBtn.addEventListener('click', disconnectWallet);
+    sendBtn.addEventListener('click', sendBread);
+    buyBtn.addEventListener('click', buyBread);
+    receiveBtn.addEventListener('click', toggleReceive);
+
+    // Enter key for send
+    sendAmountInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendBread();
+    });
+    recipientInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendBread();
+    });
+
+    // ============================================
+    // INIT
+    // ============================================
+    updateUI();
+    showToast('🍞 Welcome to $BREAD! Connect your wallet to start.', false);
+
+    console.log('🍞 $BREAD Token loaded!');
+    console.log('📱 For mobile: Open this in Phantom\'s in-app browser');
+  </script>
 </body>
 </html>
